@@ -1,0 +1,125 @@
+zabbix_export:
+  version: '6.4'
+  template_groups:
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    - uuid: 600177c6e85f490199a5f95a9f794fb4
+      template: 'Template App OpenVPN-GOST'
+      name: 'Template App OpenVPN-GOST'
+      groups:
+        - name: Templates
+      items:
+        - uuid: 4395629e0e69452cb84f64fca818fdf0
+          name: 'OpenVPN-GOST: number of users'
+          key: num_user.openvpn-gost
+          delay: '120'
+          tags:
+            - tag: Application
+              value: OpenVPN-GOST
+        - uuid: 8b47281c896a465f8063d20e3df6846f
+          name: 'OpenVPN-GOST: service state'
+          key: 'systemd.unit.is-active[openvpn-gost]'
+          delay: '60'
+          tags:
+            - tag: Application
+              value: OpenVPN-GOST
+          triggers:
+            - uuid: e0c0bf5ae66a42efb438b6fa99648ba5
+              expression: 'last(/Template App OpenVPN-GOST/systemd.unit.is-active[openvpn-gost])=0'
+              name: 'OpenVPN-GOST: service is down'
+              priority: HIGH
+      discovery_rules:
+        - uuid: a1a953d65d3048978f1c6ef4e07d4be1
+          name: 'openvpn-gost vpn_user'
+          key: discovery.openvpn-gost
+          delay: '60'
+          lifetime: 1d
+          item_prototypes:
+            - uuid: 81d45a7d4d5d4588997d0a9caa3c6315
+              name: 'openvpn-gost byte_received {#VPNUSER}'
+              key: 'user_byte_received.openvpn-gost[{#VPNUSER}]'
+              delay: '120'
+              units: b\s
+              preprocessing:
+                - type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+              tags:
+                - tag: Application
+                  value: OpenVPN-GOST
+            - uuid: d90defdc8dcf43da8a1e7588779fd0b5
+              name: 'openvpn-gost byte_sent {#VPNUSER}'
+              key: 'user_byte_sent.openvpn-gost[{#VPNUSER}]'
+              delay: '120'
+              units: b\s
+              preprocessing:
+                - type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+              tags:
+                - tag: Application
+                  value: OpenVPN-GOST
+            - uuid: 07589caa47e04ab882e3655d515432c8
+              name: 'openvpn-gost user_status openvpn-gost {#VPNUSER}'
+              key: 'user_status.openvpn-gost[{#VPNUSER}]'
+              delay: '120'
+              tags:
+                - tag: Application
+                  value: OpenVPN-GOST
+          graph_prototypes:
+            - uuid: 5df2b1d3956847e4ac3580bc07175f9b
+              name: 'openvpn-gost byte_sent/received {#VPNUSER}'
+              graph_items:
+                - color: 1A7C11
+                  item:
+                    host: 'Template App OpenVPN-GOST'
+                    key: 'user_byte_received.openvpn-gost[{#VPNUSER}]'
+                - sortorder: '1'
+                  color: F63100
+                  item:
+                    host: 'Template App OpenVPN-GOST'
+                    key: 'user_byte_sent.openvpn-gost[{#VPNUSER}]'
+            - uuid: bba8b652d1a540b7b53c35e67b10f41b
+              name: 'OpenVPN-GOST Status {#VPNUSER}'
+              graph_items:
+                - color: 1A7C11
+                  item:
+                    host: 'Template App OpenVPN-GOST'
+                    key: 'user_status.openvpn-gost[{#VPNUSER}]'
+      dashboards:
+        - uuid: da8dd347e38f454a8a06b41bc061f19f
+          name: OpenVPN-GOST
+          pages:
+            - widgets:
+                - type: graph
+                  width: '24'
+                  height: '5'
+                  fields:
+                    - type: ITEM
+                      name: itemid
+                      value:
+                        host: 'Template App OpenVPN-GOST'
+                        key: num_user.openvpn-gost
+                    - type: INTEGER
+                      name: source_type
+                      value: '1'
+                - type: graphprototype
+                  'y': '5'
+                  width: '24'
+                  height: '5'
+                  fields:
+                    - type: INTEGER
+                      name: columns
+                      value: '1'
+                    - type: GRAPH_PROTOTYPE
+                      name: graphid
+                      value:
+                        host: 'Template App OpenVPN-GOST'
+                        name: 'OpenVPN-GOST Status {#VPNUSER}'
+                    - type: INTEGER
+                      name: rows
+                      value: '1'
+                    - type: INTEGER
+                      name: source_type
+                      value: '2'
