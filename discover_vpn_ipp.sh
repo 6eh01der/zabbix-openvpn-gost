@@ -1,6 +1,6 @@
 #!/bin/bash
 
-path=/etc/openvpn/ipp.txt # path to ifconfig-pool-persist file
+path=/etc/openvpn-gost/ipp.txt # path to ifconfig-pool-persist file
 
 echo "{"
 echo "\"data\":["
