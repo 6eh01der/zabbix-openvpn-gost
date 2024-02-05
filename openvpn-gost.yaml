@@ -40,7 +40,7 @@ zabbix_export:
               name: 'openvpn-gost byte_received {#VPNUSER}'
               key: 'user_byte_received.openvpn-gost[{#VPNUSER}]'
               delay: '120'
-              units: b\s
+              units: b/s
               preprocessing:
                 - type: CHANGE_PER_SECOND
                   parameters:
@@ -52,7 +52,7 @@ zabbix_export:
               name: 'openvpn-gost byte_sent {#VPNUSER}'
               key: 'user_byte_sent.openvpn-gost[{#VPNUSER}]'
               delay: '120'
-              units: b\s
+              units: b/s
               preprocessing:
                 - type: CHANGE_PER_SECOND
                   parameters:
