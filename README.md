@@ -22,15 +22,15 @@ Setup:
 Форк https://github.com/Grifagor/zabbix-openvpn адаптированный для OpenVPN-GOST (https://www.cryptocom.ru/products/openvpn.html)
 
 Скрипт мониторинга пользователей OpenVPN-ГОСТ.
-Проверяется статус каждого пользователя OpenVPN-ГОСТ, и его входящий\исходящий трафик.
+Проверяется статус каждого пользователя OpenVPN-ГОСТ, и его входящий/исходящий трафик.
 С помощью LLD создаются "элементы данных" по имени файлов сертификатов.
-Дополнительно этот шаблон включает мониторинг состония systemd юнита OpenVPN-ГОСТ.
+Дополнительно этот шаблон включает мониторинг состояния systemd юнита openvpn-gost.
 
 Установка:
 
-1) Включите OpeVPN-ГОСТ логирование статуса клиентов добавив строку "status openvpn-gost-status.log" в конфигурационный файл сервера, в случае Ubuntu "/etc/openvpn-gost/openvpn-gost.conf", или изменив имя статусного лог файла и путь к нему в "/etc/zabbix/zabbix_agent2.d/openvpn-gost.conf";
+1) Включите в OpeVPN-ГОСТ логирование статуса клиентов добавив строку "status openvpn-gost-status.log" в конфигурационный файл сервера, в случае Ubuntu "/etc/openvpn-gost/openvpn-gost.conf", или изменив имя статусного лог файла и путь к нему в "/etc/zabbix/zabbix_agent2.d/openvpn-gost.conf";
 
-2) Скопировать файл discover_vpn.sh в любую директорию, на сервере с OpenVPN-ГОСТ (например, /etc/zabbix/zabbix_agent2.d/scripts/discover_vpn.sh), указать в нём путь до папки с клиентскими конфигурациями OpenVPN-ГОСТ (строка №3), сделать владельцем пользователя zabbix и дать права на выполнение;
+2) Скопировать файл discover_vpn.sh в любую директорию на сервере с OpenVPN-ГОСТ (например, /etc/zabbix/zabbix_agent2.d/scripts/discover_vpn.sh), указать в нём путь до папки с клиентскими конфигурациями OpenVPN-ГОСТ (строка №3), сделать владельцем пользователя zabbix и дать права на выполнение;
 	
 3) Скопировать файл "openvpn-gost.conf" этого репозитория в zabbix_agent2.d (например /etc/zabbix/zabbix_agent2.d/openvpn-gost.conf), возможно потребуется изменить путь до discover_vpn.sh;
 	
